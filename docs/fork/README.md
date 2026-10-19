@@ -1,6 +1,8 @@
-# Fork wydajnościowy KytyPS5
+# personalstation5
 
-Ten katalog opisuje nasz fork. Reszta repo to [KytyPS5](https://github.com/KytyPS5/KytyPS5) (GPL-2.0) z naszymi zmianami.
+**personalstation5** to fork [KytyPS5](https://github.com/KytyPS5/KytyPS5) (GPL-2.0) nastawiony na wydajność na PC z RTX 3080 i Ryzenem 5 5600. Repo: [liberda-soft/personalstation5](https://github.com/liberda-soft/personalstation5). Projekt nie jest powiązany z Sony Interactive Entertainment.
+
+Ten katalog opisuje nasze zmiany. Reszta repo to kod KytyPS5. Pliki wykonywalne zostają jako `kyty_*`, żeby nie powodować konfliktów przy mergowaniu upstreamu. W buildach z CI tytuł okna pokazuje `Fork build liberda-soft/personalstation5 <hash>`.
 
 - [PLAN.md](PLAN.md): cel, etapy i zasady.
 - [BENCHMARK.md](BENCHMARK.md): jak mierzyć wydajność na PC testowym.

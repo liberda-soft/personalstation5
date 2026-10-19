@@ -1,4 +1,4 @@
-# Plan forka wydajnościowego
+# personalstation5: plan
 
 *Wersja robocza, 19 października 2026. Zastępuje plan „od zera” z `plan-emulatora-ps5.md`.*
 
@@ -13,7 +13,7 @@ Bazą jest [KytyPS5](https://github.com/KytyPS5/KytyPS5) (GPL-2.0), a nie stary 
 - renderer Vulkan;
 - dźwięk, pad i zapisy.
 
-Pisanie tego od nowa nie ma sensu. Dlatego **fork KytyPS5 nastawiony na wydajność** na naszym sprzęcie.
+Pisanie tego od nowa nie ma sensu. Dlatego **personalstation5 to fork KytyPS5 nastawiony na wydajność** na naszym sprzęcie.
 
 Stan upstreamu (19.10.2026):
 
@@ -43,7 +43,8 @@ Grywalne gry 3D na **RTX 3080 (10 GB) + Ryzen 5 5600**:
    - zero kodu i dokumentów z wycieków SDK;
    - żadnych gier, firmware'u ani kluczy w repo;
    - tylko własne zrzuty;
-   - w nazwie bez „PS5” i „PlayStation”.
+   - żadnych logotypów ani grafik przypominających PlayStation.
+   - Nazwa „personalstation5” to świadoma decyzja (19.10.2026), mimo skrótu PS5. Ryzyko znaku towarowego oceniamy jako umiarkowane, bo shadPS4 i KytyPS5 nie dostały zgłoszeń. Do tego README i opis repo mówią wprost, że projekt nie jest powiązany z Sony.
    - Upstream wymaga też ujawniania użycia AI w PR-ach.
 
 ## Co wynika z naszego sprzętu
@@ -62,8 +63,9 @@ Grywalne gry 3D na **RTX 3080 (10 GB) + Ryzen 5 5600**:
 - [x] `--bench-log <folder>` (czasy klatek i liczniki do CSV) oraz `tools/bench/compare.py`.
 - [x] `--vram-gc Proportional|Legacy`: progi GC tekstur jako ułamek budżetu VRAM, z testem `vram_gc_policy`.
 - [x] Kod hosta kompilowany dla x86-64-v3 (AVX2/FMA/BMI2) na Windows i Linuksie.
-- [ ] Repo na GitHubie i CI dla Windows, żeby artefakty trafiały na PC testowy.
-- [ ] Nazwa projektu.
+- [x] Repo na GitHubie ([liberda-soft/personalstation5](https://github.com/liberda-soft/personalstation5)) i CI dla Windows. Pierwszy build: Windows i Linux OK, 13/13 testów na Windows.
+- [x] Nazwa projektu: personalstation5.
+- [ ] Test `vram_gc_policy` w CI (commit czeka na uprawnienie `workflow` w `gh`).
 - [ ] Baseline: 2–3 posiadane gry, w każdej ta sama scena, `Legacy` vs `Proportional`.
 
 ### Etap 1: Szybkie wygrane (2–4 tygodnie, niskie ryzyko)
