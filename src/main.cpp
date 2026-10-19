@@ -100,6 +100,10 @@ static void PrintUsage() {
 	::printf(
 	    "  --skip-notice-screen <true|false>    Skip startup logos and notices in supported games.\n"
 	    "                                      Default: false.\n");
+	::printf("  --vram-gc <Proportional|Legacy>      Texture cache VRAM GC levels. Default: "
+	         "Proportional.\n");
+	::printf("  --bench-log <dir>                    Write per-frame times and per-second counters "
+	         "as CSV.\n");
 #if KYTY_PLATFORM == KYTY_PLATFORM_WINDOWS
 	::printf("  --redzone                            Protect the guest SysV red zone.\n");
 #endif
@@ -482,6 +486,13 @@ static bool ParseArgs(int argc, char* argv[], RunOptions& options, bool& show_he
 				::printf("invalid boolean for %s: %s\n", arg.c_str(), value.c_str());
 				return false;
 			}
+		} else if (arg == "--vram-gc") {
+			if (!ParseEnum(value, options.config.vram_gc_policy)) {
+				::printf("invalid VRAM GC policy: %s\n", value.c_str());
+				return false;
+			}
+		} else if (arg == "--bench-log") {
+			options.config.benchmark_log_folder = Common::PathFromUtf8(value);
 		} else if (arg == "--skip-notice-screen") {
 			if (!ParseBool(value, options.config.skip_notice_screen)) {
 				::printf("invalid boolean for %s: %s\n", arg.c_str(), value.c_str());
