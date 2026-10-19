@@ -209,6 +209,14 @@ bool SkipNoticeScreen() {
 	return g_config->skip_notice_screen;
 }
 
+VramGcPolicy GetVramGcPolicy() {
+	return g_config->vram_gc_policy;
+}
+
+const std::filesystem::path& GetBenchmarkLogFolder() {
+	return g_config->benchmark_log_folder;
+}
+
 #if KYTY_PLATFORM == KYTY_PLATFORM_WINDOWS
 bool RedZoneProtectionEnabled() {
 	return g_config->red_zone_protection_enabled;

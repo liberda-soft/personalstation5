@@ -7,7 +7,8 @@
 
 namespace Common::DebugCounters {
 
-static_assert(std::atomic<uint64_t>::is_always_lock_free && std::atomic<bool>::is_always_lock_free);
+static_assert(std::atomic<uint64_t>::is_always_lock_free &&
+              std::atomic<uint32_t>::is_always_lock_free);
 
 // Collect events only while the panel is visible. Relaxed, lock-free atomics keep updates
 // cheap and safe in signal handlers. Rates come from comparing two snapshots.
@@ -50,17 +51,37 @@ enum class Counter {
 enum class Peak { ShaderCompileNs, PipelineCreateNs, Count };
 
 namespace Detail {
-inline std::atomic<bool>     g_enabled {false};
+// Counters collect while the performance overlay or the benchmark log uses them.
+constexpr uint32_t           OVERLAY_USER   = 1u << 0u;
+constexpr uint32_t           BENCHMARK_USER = 1u << 1u;
+inline std::atomic<uint32_t> g_users {0};
 inline std::atomic<uint64_t> g_counters[static_cast<int>(Counter::Count)] {};
 inline std::atomic<uint64_t> g_peaks[static_cast<int>(Peak::Count)] {};
 } // namespace Detail
 
 [[nodiscard]] inline bool Enabled() noexcept {
-	return Detail::g_enabled.load(std::memory_order_relaxed);
+	return Detail::g_users.load(std::memory_order_relaxed) != 0;
+}
+
+// The performance overlay is shown; Enabled() also stays true while the benchmark log records.
+[[nodiscard]] inline bool OverlayEnabled() noexcept {
+	return (Detail::g_users.load(std::memory_order_relaxed) & Detail::OVERLAY_USER) != 0;
 }
 
 inline void SetEnabled(bool enabled) noexcept {
-	Detail::g_enabled.store(enabled, std::memory_order_relaxed);
+	if (enabled) {
+		Detail::g_users.fetch_or(Detail::OVERLAY_USER, std::memory_order_relaxed);
+	} else {
+		Detail::g_users.fetch_and(~Detail::OVERLAY_USER, std::memory_order_relaxed);
+	}
+}
+
+inline void SetBenchmarkEnabled(bool enabled) noexcept {
+	if (enabled) {
+		Detail::g_users.fetch_or(Detail::BENCHMARK_USER, std::memory_order_relaxed);
+	} else {
+		Detail::g_users.fetch_and(~Detail::BENCHMARK_USER, std::memory_order_relaxed);
+	}
 }
 
 inline void Add(Counter counter, uint64_t value = 1) noexcept {

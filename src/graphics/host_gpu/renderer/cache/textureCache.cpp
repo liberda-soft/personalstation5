@@ -10,6 +10,7 @@
 #include "graphics/guest_gpu/tile.h"
 #include "graphics/host_gpu/graphicContext.h"
 #include "graphics/host_gpu/renderer/cache/bufferCache.h"
+#include "graphics/host_gpu/renderer/cache/vramGcPolicy.h"
 #include "graphics/host_gpu/renderer/commandScheduler.h"
 #include "graphics/host_gpu/renderer/image/imageView.h"
 #include "graphics/host_gpu/renderer/image/textureCommon.h"
@@ -21,6 +22,7 @@
 #include <array>
 #include <bit>
 #include <cinttypes>
+#include <cstdio>
 #include <cstring>
 #include <limits>
 #include <mutex>
@@ -124,15 +126,20 @@ TextureCache::TextureCache(GraphicContext& graphics, CommandScheduler& scheduler
       m_buffer_cache(buffer_cache),
       m_readback_linear_images(Config::ReadbackLinearImagesEnabled()) {
 	if (m_graphics.CanReportMemoryUsage()) {
-		constexpr int64_t GiB = 1024ll * 1024 * 1024;
-		const auto        budget =
+		const auto budget =
 		    static_cast<int64_t>(std::min<uint64_t>(m_graphics.GetTotalMemoryBudget(), INT64_MAX));
-		const auto threshold = std::min<int64_t>(budget, 8 * GiB);
-		m_pressure_gc_memory = static_cast<uint64_t>(
-		    std::max<int64_t>(std::min(budget - 6 * threshold / 10, budget - GiB), GiB + GiB / 2));
-		m_critical_gc_memory = static_cast<uint64_t>(
-		    std::max<int64_t>(std::min(budget - 2 * threshold / 10, budget - GiB / 2), 3 * GiB));
-		m_trigger_gc_memory = static_cast<uint64_t>(std::max<int64_t>((budget - threshold) / 2, 0));
+		const auto policy      = Config::GetVramGcPolicy();
+		const auto levels      = ComputeTextureGcLevels(budget, policy);
+		m_trigger_gc_memory    = levels.trigger;
+		m_pressure_gc_memory   = levels.pressure;
+		m_critical_gc_memory   = levels.critical;
+		constexpr uint64_t MiB = 1024ull * 1024;
+		::printf("TextureCache: VRAM budget %lld MiB, GC levels %llu / %llu / %llu MiB (%s)\n",
+		         static_cast<long long>(budget / static_cast<int64_t>(MiB)),
+		         static_cast<unsigned long long>(levels.trigger / MiB),
+		         static_cast<unsigned long long>(levels.pressure / MiB),
+		         static_cast<unsigned long long>(levels.critical / MiB),
+		         policy == Config::VramGcPolicy::Legacy ? "legacy" : "proportional");
 	}
 }
 

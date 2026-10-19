@@ -27,6 +27,9 @@ enum class ShaderOptimizationType { None, Size, Performance };
 enum class LogDirection { Silent, Console, File };
 
 enum class PresentMode { Fifo, Mailbox, Immediate };
+// How the texture cache places its VRAM garbage-collection levels: as shares of the device
+// budget, or upstream's levels derived from a fixed 8 GiB working set.
+enum class VramGcPolicy { Proportional, Legacy };
 
 using Keymap = std::vector<std::string>;
 using ControllerColor = std::array<uint8_t, 3>;
@@ -92,6 +95,9 @@ struct ConfigOptions {
 	bool                   perf_overlay_enabled            = false;
 	bool                   playgo_hack_enabled         = false;
 	bool                   skip_notice_screen          = false;
+	VramGcPolicy           vram_gc_policy                  = VramGcPolicy::Proportional;
+	// Empty: no benchmark log.
+	std::filesystem::path benchmark_log_folder;
 #if KYTY_PLATFORM == KYTY_PLATFORM_WINDOWS
 	bool red_zone_protection_enabled = false;
 #endif
@@ -156,6 +162,8 @@ bool TrophyEnabled();
 uint32_t GetTrophyDurationSeconds();
 bool PlayGoHackEnabled();
 bool SkipNoticeScreen();
+VramGcPolicy                 GetVramGcPolicy();
+const std::filesystem::path& GetBenchmarkLogFolder();
 #if KYTY_PLATFORM == KYTY_PLATFORM_WINDOWS
 bool RedZoneProtectionEnabled();
 #endif
