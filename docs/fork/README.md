@@ -2,7 +2,15 @@
 
 **personalstation5** to fork [KytyPS5](https://github.com/KytyPS5/KytyPS5) (GPL-2.0) nastawiony na wydajność na PC z RTX 3080 i Ryzenem 5 5600. Repo: [liberda-soft/personalstation5](https://github.com/liberda-soft/personalstation5). Projekt nie jest powiązany z Sony Interactive Entertainment.
 
-Ten katalog opisuje nasze zmiany. Reszta repo to kod KytyPS5. Pliki wykonywalne zostają jako `kyty_*`, żeby nie powodować konfliktów przy mergowaniu upstreamu. W buildach z CI tytuł okna pokazuje `Fork build liberda-soft/personalstation5 <hash>`.
+Ten katalog opisuje nasze zmiany. Reszta repo to kod KytyPS5.
+
+Pliki, które widzisz po rozpakowaniu buildu:
+
+- `personalstation5.exe`: launcher z listą gier;
+- `personalstation5_emulator.exe`: sam emulator, uruchamiany z wiersza poleceń (np. do benchmarku);
+- na macOS: `personalstation5.app`.
+
+Nazwy ustawiają zmienne CMake `KYTY_PRODUCT_NAME`, `KYTY_LAUNCHER_OUTPUT_NAME` i `KYTY_EMULATOR_OUTPUT_NAME`. Targety CMake w kodzie dalej nazywają się `kyty_emulator` i `launcher`, żeby merge z upstreamem był prosty. Tytuł okna to `personalstation5 <hash> (liberda-soft/personalstation5)`.
 
 - [PLAN.md](PLAN.md): cel, etapy i zasady.
 - [BENCHMARK.md](BENCHMARK.md): jak mierzyć wydajność na PC testowym.
@@ -15,6 +23,7 @@ Ten katalog opisuje nasze zmiany. Reszta repo to kod KytyPS5. Pliki wykonywalne 
 | Progi GC tekstur jako ułamek budżetu VRAM (karty 10 GB) | `src/graphics/host_gpu/renderer/cache/vramGcPolicy.h`, `textureCache.cpp`, `tests/VramGcPolicyTests.cpp` | `--vram-gc Proportional\|Legacy` (domyślnie `Proportional`) |
 | Kod hosta dla x86-64-v3 (AVX2/FMA/BMI2) na Windows i Linuksie | `CMakeLists.txt` | `-DKYTY_HOST_ARCH=` (pusty wyłącza) |
 | Skrypt porównujący benchmarki | `tools/bench/compare.py` | — |
+| Nazwy plików, aplikacji i tytułów: personalstation5 | `CMakeLists.txt`, `src/cmake_config.h.in`, `src/kytyGitVersion.h.in`, `src/launcher/*`, `src/main.cpp`, `.github/workflows/build.yml` | `-DKYTY_PRODUCT_NAME=…` itd. |
 
 ## Synchronizacja z upstreamem
 

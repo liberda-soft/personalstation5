@@ -42,7 +42,7 @@ static std::string GetBuildString() {
 
 static void PrintUsage() {
 	::printf("%s\n", GetBuildString().c_str());
-	::printf("kyty_emulator --game <dir|elf|zar> [options]\n\n");
+	::printf(KYTY_EMULATOR_OUTPUT_NAME " --game <dir|elf|zar> [options]\n\n");
 	::printf("Options:\n");
 	::printf("  --game <dir|elf|zar>                 Game directory, ELF, or ZArchive to load.\n");
 	::printf("  --game-patch <json>                  ETAHen cheat file.\n");

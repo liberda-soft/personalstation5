@@ -9,7 +9,7 @@ Każdą zmianę wydajności sprawdzamy tak samo:
 
 ## 1. Przygotowanie
 
-1. Pobierz build Windows z GitHub Actions: zakładka *Actions*, ostatni udany przebieg, artefakt `KytyPS5-Windows-x64`.
+1. Pobierz build Windows z GitHub Actions: zakładka *Actions*, ostatni udany przebieg, artefakt `personalstation5-Windows-x64`.
 2. Rozpakuj go, np. do `C:\emu\build-AAAA-MM-DD`.
 3. Zaktualizuj sterownik NVIDIA.
 4. Zamknij przeglądarkę, Discorda z nakładką i inne programy obciążające GPU.
@@ -29,10 +29,10 @@ Potem uruchamiaj przebiegi na zmianę A, B, A, B, np. w PowerShellu:
 
 ```powershell
 cd C:\emu\build-AAAA-MM-DD
-.\kyty_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Legacy --bench-log "D:\bench\gra-legacy-1" *> "D:\bench\gra-legacy-1.log"
-.\kyty_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Proportional --bench-log "D:\bench\gra-prop-1" *> "D:\bench\gra-prop-1.log"
-.\kyty_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Legacy --bench-log "D:\bench\gra-legacy-2" *> "D:\bench\gra-legacy-2.log"
-.\kyty_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Proportional --bench-log "D:\bench\gra-prop-2" *> "D:\bench\gra-prop-2.log"
+.\personalstation5_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Legacy --bench-log "D:\bench\gra-legacy-1" *> "D:\bench\gra-legacy-1.log"
+.\personalstation5_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Proportional --bench-log "D:\bench\gra-prop-1" *> "D:\bench\gra-prop-1.log"
+.\personalstation5_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Legacy --bench-log "D:\bench\gra-legacy-2" *> "D:\bench\gra-legacy-2.log"
+.\personalstation5_emulator.exe --game "D:\Gry\NazwaGry" --vram-gc Proportional --bench-log "D:\bench\gra-prop-2" *> "D:\bench\gra-prop-2.log"
 ```
 
 Po każdym przebiegu zamknij okno emulatora. Pliki CSV są zapisywane co sekundę, więc nawet crash zostawia wyniki.

@@ -78,6 +78,12 @@ elseif(KYTY_BUILD_ORIGIN STREQUAL "Fork")
 	set(KYTY_FORK_BUILD ON)
 endif()
 
+# personalstation5: the names users see. CMake targets keep their kyty_* names so upstream merges
+# stay clean.
+set(KYTY_PRODUCT_NAME "personalstation5" CACHE STRING "Product name in window titles and the macOS app bundle")
+set(KYTY_EMULATOR_OUTPUT_NAME "personalstation5_emulator" CACHE STRING "Emulator executable file name")
+set(KYTY_LAUNCHER_OUTPUT_NAME "personalstation5" CACHE STRING "Launcher executable file name")
+
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 include(TestBigEndian)
@@ -773,6 +779,7 @@ if(APPLE AND (CMAKE_OSX_ARCHITECTURES STREQUAL "x86_64" OR
 endif()
 
 add_executable(kyty_emulator "${KYTY_SOURCE_DIR}/main.cpp" ${kyty_emulator_src})
+set_target_properties(kyty_emulator PROPERTIES OUTPUT_NAME "${KYTY_EMULATOR_OUTPUT_NAME}")
 configure_macos_guest_address_space(kyty_emulator)
 
 set(KYTY_TROPHY_UNLOCK_SOUND "${CMAKE_CURRENT_SOURCE_DIR}/assets/sounds/trophy-unlock.wav")
@@ -816,7 +823,7 @@ include_what_you_use(kyty_emulator "${inc_headers}")
 set(KYTY_EMULATOR_MAP_NAME "kyty_emulator_${KYTY_COMPILER_ID}_${KYTY_LINKER_ID}.map")
 
 set(KYTY_EMULATOR_MAP_LINK_PATH "${CMAKE_CURRENT_BINARY_DIR}/${KYTY_EMULATOR_MAP_NAME}")
-set(KYTY_EMULATOR_PDB_LINK_PATH "${CMAKE_CURRENT_BINARY_DIR}/kyty_emulator.pdb")
+set(KYTY_EMULATOR_PDB_LINK_PATH "${CMAKE_CURRENT_BINARY_DIR}/${KYTY_EMULATOR_OUTPUT_NAME}.pdb")
 
 if(KYTY_CLANG_CL)
 	target_link_options(kyty_emulator PRIVATE

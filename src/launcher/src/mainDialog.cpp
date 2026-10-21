@@ -7,6 +7,7 @@
 #include "controllerPreview.h"
 #include "gameContent.h"
 #include "titleSound.h"
+#include "cmake_config.h"
 #include "updateChecker.h"
 
 #include <QApplication>
@@ -47,9 +48,9 @@
 class QWidget;
 
 #if defined(_WIN32)
-constexpr char EMULATOR_EXE[] = "kyty_emulator.exe";
+constexpr char EMULATOR_EXE[] = KYTY_EMULATOR_OUTPUT_NAME ".exe";
 #else
-constexpr char EMULATOR_EXE[] = "kyty_emulator";
+constexpr char EMULATOR_EXE[] = KYTY_EMULATOR_OUTPUT_NAME;
 #endif
 
 #if defined(_WIN32)
@@ -129,6 +130,7 @@ MainDialogPrivate::~MainDialogPrivate() {
 void MainDialogPrivate::Setup(MainDialog* main_dialog) {
 	m_ui = new Ui::MainDialog;
 	m_ui->setupUi(main_dialog);
+	main_dialog->setWindowTitle(QStringLiteral(KYTY_PRODUCT_NAME));
 	m_ui->widget->SetControllerPreview(&m_controller_preview);
 
 	m_main_dialog = main_dialog;

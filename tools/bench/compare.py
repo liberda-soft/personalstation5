@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Summarize and compare benchmark logs written by `kyty_emulator --bench-log <dir>`.
+"""Summarize and compare benchmark logs written by `personalstation5_emulator --bench-log <dir>`.
 
     python3 tools/bench/compare.py runs/official runs/fork --skip 30 --duration 60
 

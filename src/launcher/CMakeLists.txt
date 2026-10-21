@@ -77,9 +77,9 @@ if(WIN32)
 	)
 endif()
 
-set(launcher_name "kyty_launcher")
+set(launcher_name "${KYTY_LAUNCHER_OUTPUT_NAME}")
 if(APPLE)
-	set(launcher_name "KytyPS5")
+	set(launcher_name "${KYTY_PRODUCT_NAME}")
 endif()
 
 set_target_properties(launcher PROPERTIES OUTPUT_NAME ${launcher_name})
@@ -112,17 +112,17 @@ if(NOT APPLE)
 endif()
 
 if(APPLE)
-	install(TARGETS kyty_emulator DESTINATION "KytyPS5.app/Contents/MacOS")
-	install(TARGETS kyty_updater DESTINATION "KytyPS5.app/Contents/MacOS")
-	install(FILES "${KYTY_TROPHY_UNLOCK_SOUND}" DESTINATION "KytyPS5.app/Contents/Resources/assets/sounds")
-	install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets/cursors" DESTINATION "KytyPS5.app/Contents/Resources/assets")
+	install(TARGETS kyty_emulator DESTINATION "${KYTY_PRODUCT_NAME}.app/Contents/MacOS")
+	install(TARGETS kyty_updater DESTINATION "${KYTY_PRODUCT_NAME}.app/Contents/MacOS")
+	install(FILES "${KYTY_TROPHY_UNLOCK_SOUND}" DESTINATION "${KYTY_PRODUCT_NAME}.app/Contents/Resources/assets/sounds")
+	install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets/cursors" DESTINATION "${KYTY_PRODUCT_NAME}.app/Contents/Resources/assets")
 	# Deploy and ad-hoc sign the Qt frameworks and plugins in the bundle.
 	find_program(KYTY_MACDEPLOYQT NAMES macdeployqt PATHS "${Qt6_DIR}/../../../bin" NO_DEFAULT_PATH)
 	if(NOT KYTY_MACDEPLOYQT)
 		message(FATAL_ERROR "Could not find macdeployqt")
 	endif()
 	install(CODE "
-		execute_process(COMMAND \"${KYTY_MACDEPLOYQT}\" \"\${CMAKE_INSTALL_PREFIX}/KytyPS5.app\"
+		execute_process(COMMAND \"${KYTY_MACDEPLOYQT}\" \"\${CMAKE_INSTALL_PREFIX}/${KYTY_PRODUCT_NAME}.app\"
 			-codesign=-
 			RESULT_VARIABLE _kyty_deploy_result)
 		if(NOT _kyty_deploy_result EQUAL 0)

@@ -5,7 +5,7 @@
             "name": "Debug launcher UI",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\_Build\\vscode-clang\\launcher\\kyty_launcher.exe",
+            "program": "${workspaceFolder}\\_Build\\vscode-clang\\launcher\\personalstation5.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}\\_Build\\vscode-clang\\launcher",
@@ -13,17 +13,17 @@
             "externalConsole": false,
             "linux": {
                 "type": "cppdbg",
-                "program": "${workspaceFolder}/_Build/vscode-clang/launcher/kyty_launcher",
+                "program": "${workspaceFolder}/_Build/vscode-clang/launcher/personalstation5",
                 "cwd": "${workspaceFolder}/_Build/vscode-clang/launcher",
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb"
             }
         },
         {
-            "name": "Debug kyty_emulator",
+            "name": "Debug personalstation5_emulator",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\_Build\\vscode-clang\\kyty_emulator.exe",
+            "program": "${workspaceFolder}\\_Build\\vscode-clang\\personalstation5_emulator.exe",
             "args": [
                 "--game", "D:/gamesps5/PPSA07429",
                 "--printf-direction", "File",
@@ -35,7 +35,7 @@
             "externalConsole": true,
             "linux": {
                 "type": "cppdbg",
-                "program": "${workspaceFolder}/_Build/vscode-clang/kyty_emulator",
+                "program": "${workspaceFolder}/_Build/vscode-clang/personalstation5_emulator",
                 "cwd": "${workspaceFolder}/_Build/vscode-clang",
                 "externalConsole": false,
                 "MIMode": "gdb",
@@ -50,7 +50,7 @@
             }
         },
         {
-            "name": "Attach to running kyty_emulator",
+            "name": "Attach to running personalstation5_emulator",
             "type": "cppvsdbg",
             "request": "attach",
             "processId": "${command:pickProcess}",
